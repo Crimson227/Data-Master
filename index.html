@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataMaster</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Updated Fonts: Added Noto Sans SC for Chinese support -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            // Body text: Priority to Plus Jakarta (English/Num), then Noto Sans SC (Chinese)
+            sans: ['Plus Jakarta Sans', 'Noto Sans SC', 'sans-serif'],
+            // Headlines: Priority to Syne (Unique Pop look), then Noto Sans SC (Chinese)
+            display: ['Syne', 'Noto Sans SC', 'sans-serif'],
+            // Code: JetBrains Mono
+            mono: ['JetBrains Mono', 'Noto Sans Mono', 'monospace'],
+          },
+          colors: {
+            glass: "#ffffff",
+            glassBorder: "#000000",
+            primary: "var(--color-primary)",
+            accent: "var(--color-accent)",
+            surface: "#f8fafc",
+          },
+          boxShadow: {
+            'pop': '4px 4px 0px 0px rgba(0,0,0,1)',
+            'pop-hover': '6px 6px 0px 0px rgba(0,0,0,1)',
+            'pop-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
+          },
+          animation: {
+            'gradient-text': 'gradient-text 3s ease infinite',
+            'scan': 'scan 2s linear infinite',
+            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            'gradient-text': {
+              '0%, 100%': {
+                'background-size': '200% 200%',
+                'background-position': 'left center'
+              },
+              '50%': {
+                'background-size': '200% 200%',
+                'background-position': 'right center'
+              },
+            },
+            'scan': {
+              '0%': { top: '0%', opacity: 0 },
+              '10%': { opacity: 1 },
+              '90%': { opacity: 1 },
+              '100%': { top: '100%', opacity: 0 },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --color-primary: #3b82f6;
+      --color-accent: #ff4785;
+    }
+
+    body {
+      background-color: #f0f7ff;
+      color: #0f172a;
+      overflow-x: hidden;
+      /* Dot Pattern Background */
+      background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px), radial-gradient(#cbd5e1 1.5px, #f0f7ff 1.5px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+    }
+
+    /* Noise Texture Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* Floating Shapes for Decoration */
+    .pop-shape {
+      position: fixed;
+      z-index: -1;
+      pointer-events: none;
+      border: 2px solid black;
+      box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .shape-1 {
+      top: 10%;
+      left: -5%;
+      width: 300px;
+      height: 300px;
+      background: #fef08a;
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .shape-2 {
+      bottom: -10%;
+      right: -5%;
+      width: 400px;
+      height: 400px;
+      background: #e9d5ff;
+      border-radius: 0;
+      transform: rotate(15deg);
+      animation: float-rev 25s infinite ease-in-out;
+    }
+
+    .shape-3 {
+      top: 40%;
+      left: 40%;
+      width: 100px;
+      height: 100px;
+      background: #bbf7d0;
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      50% {
+        transform: translate(20px, 40px) rotate(5deg);
+      }
+    }
+
+    @keyframes float-rev {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(15deg);
+      }
+
+      50% {
+        transform: translate(-30px, -20px) rotate(10deg);
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-left: 2px solid black;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border: 2px solid black;
+      border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary);
+    }
+
+    /* Selection Color */
+    ::selection {
+      background-color: #000;
+      color: #fff;
+    }
+
+    /* --- NEW ROBUST POP ART STYLES --- */
+    /* Hard text shadows for that sticker look */
+    .text-shadow-pop {
+      text-shadow: 4px 4px 0px #000000;
+    }
+
+    .text-shadow-pop-sm {
+      text-shadow: 2px 2px 0px #000000;
+    }
+
+    /* Webkit Text Strokes */
+    .text-stroke-2 {
+      -webkit-text-stroke: 2px black;
+    }
+
+    .text-stroke-3 {
+      -webkit-text-stroke: 3px black;
+    }
+
+    .text-stroke-4 {
+      -webkit-text-stroke: 4px black;
+    }
+
+    .text-stroke-white-2 {
+      -webkit-text-stroke: 2px white;
+    }
+
+    /* Ensure gradient text works */
+    .bg-clip-text-standard {
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+  </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "canvas-confetti": "https://esm.sh/canvas-confetti@^1.9.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.11.0",
+    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
+    "react-countup": "https://esm.sh/react-countup@^6.5.3",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.0"
+  }
+}
+</script>
+</head>
+
+<body>
+  <div class="pop-shape shape-1"></div>
+  <div class="pop-shape shape-2"></div>
+  <div class="pop-shape shape-3"></div>
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
+</html>
